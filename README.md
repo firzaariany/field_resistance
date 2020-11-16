@@ -1,6 +1,6 @@
 # field_resistance
-Exploratory data analysis for a raw dataset of poplar's field resistance
-Poplar species used in this dataset is Populus nigra
+Exploratory data analysis for a raw dataset of poplar's field resistance  
+Poplar species used in this dataset is Populus nigra  
 Raw dataset contains:
 - Classe = classes of poplar's population source (témoin = control; parent 14x13 = poplar generated from other breeding program; nigrapop = poplar collected from natural populations; coll. nationale = poplar collected from (French) national collection)
 - Population = the name of the population source
