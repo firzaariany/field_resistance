@@ -1,0 +1,7 @@
+name: "Field_Res_Journal"
+navbar:
+  title: "Journal"
+  left:
+    - text: "Correlation"
+      href: index.html
+output_dir: "docs"
