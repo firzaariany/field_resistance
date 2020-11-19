@@ -1,0 +1,12 @@
+name: "Field_res_journal"
+output_dir: "docs"
+navbar:
+  title: "Index"
+left:
+  - text: "Home"
+href: index.html
+- text: "Field Resistance"
+href: field_res.html
+output:
+  html_document:
+  theme: cosmo
