@@ -1,12 +1,7 @@
-name: "Field_res_journal"
-output_dir: "docs"
+name: "Field_Res_Journal"
 navbar:
-  title: "Index"
-left:
-  - text: "Home"
-href: index.html
-- text: "Field Resistance"
-href: field_res.html
-output:
-  html_document:
-  theme: cosmo
+  title: "Journal"
+  left:
+    - text: "Correlation"
+      href: index.html
+output_dir: "docs"
