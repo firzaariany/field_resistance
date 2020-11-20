@@ -1,7 +1,14 @@
-name: "Field_Res_Journal"
-navbar:
-  title: "Journal"
+name: "Research Journal - Field Resistance"
+output_dir: "docs"  #output dir at github repo
+navbar:  #for the tabs
+  title: "Research Journal"
   left:
-    - text: "Correlation"
-      href: index.html
-output_dir: "docs"
+  - text: "Description"  #tab1
+   href: description.html  #the reference file
+  - text: "Data Cleaning"  #tab2
+   href: data_clean.html
+	- text: "Dashboard"
+   href: data_dashboard.html  #tab3
+output:
+  html_document:
+ theme: cosmo
