@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Firza Riany" />
+
+
+<title>Relationship between field and lab resistance</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Journal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Correlation</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Relationship between field and lab resistance</h1>
+<h4 class="author">Firza Riany</h4>
+<h4 class="date">19/11/2020</h4>
+
+</div>
+
+
+<div id="description" class="section level1">
+<h1>Description</h1>
+<p>Read readme for details</p>
+</div>
+<div id="libraries" class="section level1">
+<h1>Libraries</h1>
+<pre class="r"><code>library(readxl)  # to import the data in xlsx file
+library(finalfit)  # for function ffglimpse(), extension of summary
+library(ggplot2)  # for plotting
+library(plyr)  # for counting the frequency from histogram
+library(ggpubr)  # to get the function ggarrange; to combine ggplots
+library(cowplot)  # to draw density histogram at the sides of correlation plot</code></pre>
+</div>
+<div id="the-dataset" class="section level1">
+<h1>The dataset</h1>
+<pre class="r"><code>pop_raw = readxl::read_xlsx(&quot;Tested_Poplar.xlsx&quot;,
+                            na = &quot;NA&quot;)  # defining the code for missing data used in the file
+# Getting only the important variables
+wild_yr2000 = pop_raw[,c(&quot;Classe&quot;,  # the type of population source 
+                         &quot;Population&quot;,  # population of origin
+                         &quot;Clone&quot;,  # the observed poplar individuals
+                         &quot;Notemax.2010 Noveltree&quot;,  # field resistance 
+                         &quot;latence.93JE3.2010&quot;,   # latent period
+                         &quot;nbsores.93JE3.2010&quot;,  # number of spores
+                         &quot;taille.93JE3.2010&quot;)]  # size of spores
+
+colnames(wild_yr2000)[4] = &quot;Notemax.2010&quot;  # because the name was too long
+
+# Check the class of each variable
+str(wild_yr2000)</code></pre>
+<pre><code>## tibble [93 x 7] (S3: tbl_df/tbl/data.frame)
+##  $ Classe            : chr [1:93] &quot;témoin&quot; &quot;témoin&quot; &quot;témoin&quot; &quot;témoin&quot; ...
+##  $ Population        : chr [1:93] &quot;discriminant&quot; &quot;discriminant&quot; &quot;discriminant&quot; &quot;discriminant&quot; ...
+##  $ Clone             : chr [1:93] &quot;ROBUSTA&quot; &quot;OGY&quot; &quot;CANDICANS&quot; &quot;BRABANTICA&quot; ...
+##  $ Notemax.2010      : num [1:93] 3.83 4.1 4.5 4 4.91 ...
+##  $ latence.93JE3.2010: num [1:93] 8.3 NA 8.7 NA 7.65 NA NA NA NA NA ...
+##  $ nbsores.93JE3.2010: num [1:93] 37.1 0 12 0 28.4 0 0 0 0 0 ...
+##  $ taille.93JE3.2010 : num [1:93] 4.4 NA 5 NA 5 NA NA NA NA NA ...</code></pre>
+<pre class="r"><code># Coercing
+## Classe = chr to factor
+## Population = chr to factor
+## Clone = chr to factor
+cols = c(&quot;Classe&quot;, &quot;Population&quot;, &quot;Clone&quot;)  # cols to be coerced
+
+wild_yr2000[cols] = lapply(wild_yr2000[cols], factor)  # coerced to factor
+
+# New data structure
+str(wild_yr2000)</code></pre>
+<pre><code>## tibble [93 x 7] (S3: tbl_df/tbl/data.frame)
+##  $ Classe            : Factor w/ 4 levels &quot;coll. Nationale&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...
+##  $ Population        : Factor w/ 33 levels &quot;?&quot;,&quot;Assat&quot;,&quot;Baliros&quot;,..: 12 12 12 12 12 12 12 12 12 12 ...
+##  $ Clone             : Factor w/ 93 levels &quot;6-J05&quot;,&quot;6-J13&quot;,..: 77 64 41 38 89 76 11 10 36 46 ...
+##  $ Notemax.2010      : num [1:93] 3.83 4.1 4.5 4 4.91 ...
+##  $ latence.93JE3.2010: num [1:93] 8.3 NA 8.7 NA 7.65 NA NA NA NA NA ...
+##  $ nbsores.93JE3.2010: num [1:93] 37.1 0 12 0 28.4 0 0 0 0 0 ...
+##  $ taille.93JE3.2010 : num [1:93] 4.4 NA 5 NA 5 NA NA NA NA NA ...</code></pre>
+</div>
+<div id="raw-distribution" class="section level1">
+<h1>Raw distribution</h1>
+<pre class="r"><code>par(mfrow = c(2,2))  # combine the graphs (2 columns, 2 rows)
+
+# Create a dataframe for loop
+raw_loop = data.frame(&quot;note&quot; = wild_yr2000$Notemax.2010,
+                      &quot;latence&quot; = wild_yr2000$latence.93JE3.2010,
+                      &quot;nbsores&quot; = wild_yr2000$nbsores.93JE3.2010,
+                      &quot;taille&quot; = wild_yr2000$taille.93JE3.2010)
+
+for (i in 1:4) {  # 1:4 for the number of variables used
+  x = raw_loop[,i]  # assign x for each iteration
+  title = names(raw_loop[i])  # title for each iteration
+  hist(x,
+       main = title)  # create histogram in each iteration
+}</code></pre>
+<p><img src="EDA_report_files/figure-html/raw%20distribution-1.png" width="672" /></p>
+<p>Seems that there are no outliers.</p>
+<p>Latent period is not normally distributed, which is fine, biologically speaking. It shows that there is greater amount of poplars that start showing symptoms in early time than in later time. Showing that most poplars are infected early. Meaning that they are susceptible to the pathogen in the lab.</p>
+</div>
+<div id="data-cleaning-identifying-nas" class="section level1">
+<h1>Data cleaning: identifying NAs</h1>
+<pre class="r"><code># Examine NAs with ff_glimpse (package = finalfit)
+explanatory = c(&quot;latence.93JE3.2010&quot;,
+                &quot;nbsores.93JE3.2010&quot;,
+                &quot;taille.93JE3.2010&quot;)
+
+dependent = &quot;Notemax.2010&quot;
+
+wild_yr2000 %&gt;%
+  finalfit::ff_glimpse(dependent, explanatory)</code></pre>
+<pre><code>## $Continuous
+##                                 label var_type  n missing_n missing_percent mean   sd min quartile_25 median
+## Notemax.2010             Notemax.2010    &lt;dbl&gt; 81        12            12.9  3.7  0.7 1.8         3.4    3.8
+## latence.93JE3.2010 latence.93JE3.2010    &lt;dbl&gt; 86         7             7.5  8.6  0.9 7.5         8.1    8.4
+## nbsores.93JE3.2010 nbsores.93JE3.2010    &lt;dbl&gt; 93         0             0.0 27.1 12.5 0.0        21.5   27.2
+## taille.93JE3.2010   taille.93JE3.2010    &lt;dbl&gt; 85         8             8.6  3.9  0.7 1.7         3.6    4.0
+##                    quartile_75  max
+## Notemax.2010               4.0  5.8
+## latence.93JE3.2010         8.9 14.0
+## nbsores.93JE3.2010        36.3 56.7
+## taille.93JE3.2010          4.2  5.0
+## 
+## $Categorical
+## # A tibble: 93 x 0</code></pre>
+<ol style="list-style-type: decimal">
+<li>Missing percent for Notemax = 12.9 (ratio = 12/93)<br />
+</li>
+<li>Missing percent for latence = 7.5 (ratio = 7/93)<br />
+</li>
+<li>Missing percent for nbsores = 0.0 (ratio = 0/93)<br />
+</li>
+<li>Missing percent for taille = 8.6 (ratio = 8/93)</li>
+</ol>
+<pre class="r"><code># Plotting the missing data
+wild_yr2000 %&gt;% 
+  finalfit::missing_plot()</code></pre>
+<p><img src="EDA_report_files/figure-html/plot%20missing%20data-1.png" width="672" /></p>
+<pre class="r"><code># NAs in notemax, latence, and taille
+# When when latence is missing, taille is most likely to be missing as well
+# Check if the missing data in taille is due to missing data in latence?
+
+# Checking the relatedness of the missing data in these two variables 
+# using missing_pairs
+# testing H0 = missing points are MCAR (missing compeletely at random)
+explanatory_1 = &quot;latence.93JE3.2010&quot;
+
+dependent_1 = &quot;taille.93JE3.2010&quot;
+
+wild_yr2000 %&gt;% 
+  finalfit::missing_compare(dependent_1, explanatory_1) %&gt;%
+  knitr::kable(row.names = FALSE, align = c(&quot;l&quot;, &quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Missing data analysis: taille.93JE3.2010</th>
+<th align="left"></th>
+<th align="right">Not missing</th>
+<th align="right">Missing</th>
+<th align="right">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">latence.93JE3.2010</td>
+<td align="left">Mean (SD)</td>
+<td align="right">8.6 (0.7)</td>
+<td align="right">14.0 (NA)</td>
+<td align="right">&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># P significant, missing data in taille is due to missing data in latence</code></pre>
+<p>The model (missing_pairs) shows that there is a significant difference in the mean of spore size (taille) when there are missing data in latent period (latence) and when there are not.</p>
+<p>It means that the missing data in latence is related to the missing data in taille.</p>
+<p>Biologically speaking, it’s how it usually is in the interaction between pathogen and the host. When latence is missing, it means that the leaves do not show symptoms during their 14 days in growth chamber (latence is non-measurable). When latence is non-measurable, it is very likely that the number of spores and spore size are non-measurable as well because the leaves do not show symptoms.</p>
+<p>This is also an indication that the leaves are resistant to the pathogen.</p>
+<p>And this also means that there are systemic relationship among the lab resistance.</p>
+<p>Solutions: 1. To build a dashboard, we cannot exclude these missing data as they show the potential resistant poplars 2. But we should exclude them when we model the relationship between field and lab resistance</p>
+<p>What about between latence and field resistance?</p>
+<pre class="r"><code>explanatory_2 = &quot;Notemax.2010&quot;
+
+dependent_2 = &quot;latence.93JE3.2010&quot;
+
+wild_yr2000 %&gt;% 
+  finalfit::missing_compare(dependent_2, explanatory_2) %&gt;%
+  knitr::kable(row.names = FALSE, align = c(&quot;l&quot;, &quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Missing data analysis: latence.93JE3.2010</th>
+<th align="left"></th>
+<th align="right">Not missing</th>
+<th align="right">Missing</th>
+<th align="right">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Notemax.2010</td>
+<td align="left">Mean (SD)</td>
+<td align="right">3.7 (0.6)</td>
+<td align="right">4.6 (0.8)</td>
+<td align="right">0.002</td>
+</tr>
+</tbody>
+</table>
+<p>It seems that the missing data in latence do not relate to the missing data in field resistance (MACR)</p>
+<p>The missing data in notemax are also due to the missing infection on the poplar leaves in the field. This shows that the leaves might not be infected by the pathogen, showing the potential of the related poplar to be resistant.</p>
+<p>Therefore, these missing data should be included to build a dashboard for the share between resistant and susceptible poplars.</p>
+</div>
+<div id="data-cleaning-excluding-controls-témoin-and-poplars-from-national-collection" class="section level1">
+<h1>Data cleaning: Excluding controls (témoin) and poplars from national collection</h1>
+<p>To inspect resistant vs susceptible poplars, we have to exclude the ‘discriminants’ or the controls (temoin).</p>
+<p>This is because they are just the controls for the infection in other poplars. We have to clean the dataset from these controls to get a better look only on the poplars from natural population and breeding population.</p>
+<p>We should also exclude the poplars from national collection (collection nationale) because it seems that these poplars were not tested in the field. Including these in linear regression will only create bias.</p>
+<pre class="r"><code>rownames_remove &lt;- c(&quot;témoin&quot;, &quot;coll. Nationale&quot;)
+
+wild_yr2000_clean = subset(wild_yr2000,!(Classe %in% rownames_remove))</code></pre>
+</div>
+<div id="obj-1-data-dashboard-for-resistant-vs-susceptible-in-the-field" class="section level1">
+<h1>Obj 1 Data dashboard for resistant vs susceptible (in the field)</h1>
+<p>Turned out the NA is due to 1. Non-measured field resistance in the poplars from national collection.<br />
+2. Non-active infection in certain controls.</p>
+<pre class="r"><code># Resistant poplars in the field: Assigning -5 to NA to avoid confusion in R
+wild_yr2000_clean[is.na(wild_yr2000_clean)] = -5
+
+# Add a new variable: resistant vs susceptible
+# Loop, -5 = resistant, != -5 susceptible
+wild_yr2000_clean[,8] = &quot;NA&quot;
+
+names(wild_yr2000_clean)[8] = &quot;Res_vs_sus_note&quot;
+
+for (i in c(1:nrow(wild_yr2000_clean))) {
+  if(wild_yr2000_clean$Notemax.2010[i] == -5)
+    wild_yr2000_clean[i,8] = &quot;Resistant&quot;
+  
+  if(wild_yr2000_clean$Notemax.2010[i] != -5)
+    wild_yr2000_clean[i,8] = &quot;Susceptible&quot;
+}
+
+# Plotting resistant vs susceptible poplars in terms of field resistance
+(resist_field = ggplot(wild_yr2000_clean, aes(x = Res_vs_sus_note)) +
+  geom_bar(aes(fill = Res_vs_sus_note)) +
+  geom_text(stat = &quot;count&quot;, aes(label = ..count..), vjust = -0.5) +
+  labs(title = &quot;Resistant vs susceptible poplars&quot;,
+       x = &quot;Resistant vs Susceptibe&quot;,
+       y = &quot;Counts&quot;) +
+  scale_fill_manual(values = c(&quot;#87CEEB&quot;, &quot;#FF6A6A&quot;),
+                    breaks = c(&quot;Resistant&quot;, &quot;Susceptible&quot;),
+                    name = &quot;Resistant vs Susceptible&quot;,
+                    labels = c(&quot;Resistant&quot;, &quot;Susceptible&quot;)) +
+  theme_classic() +
+  theme(axis.title.x = element_blank()))</code></pre>
+<p><img src="EDA_report_files/figure-html/res%20vs%20sus%20field-1.png" width="672" /></p>
+<pre class="r"><code># Checking the population of origin of the resistant poplars
+pop = plyr::count(wild_yr2000_clean$Population[
+  which(wild_yr2000_clean$Notemax.2010 == -5)
+])
+
+names(pop)[1] = &quot;Population&quot;
+
+clone = plyr::count(wild_yr2000_clean$Clone[
+  which(wild_yr2000_clean$Notemax.2010 == -5)
+])
+
+names(clone)[1] = &quot;Clone&quot;
+
+pop$Clone = paste(clone$Clone)
+
+pop</code></pre>
+<pre><code>##            Population freq     Clone
+## 1 St_Genix_sur_Guiers    1 71072-501</code></pre>
+<p>It seems that there is only one poplar (71072-501) from St Genix that is resistant in the field.</p>
+<p>Let’s see the resistant poplars in terms of lab resistance Those with latence = 14 and taille = -5</p>
+<pre class="r"><code># Add a new variable: resistant vs susceptible (lab)
+# Loop, -5 = resistant, != -5 susceptible
+wild_yr2000_clean[,9] = &quot;NA&quot;
+
+names(wild_yr2000_clean)[9] = &quot;Res_vs_sus_lab&quot;
+
+for (i in c(1:nrow(wild_yr2000_clean))) {
+  if(wild_yr2000_clean$taille.93JE3.2010[i] == -5
+     &amp; wild_yr2000_clean$latence.93JE3.2010[i] == 14)
+    wild_yr2000_clean[i,9] = &quot;Resistant&quot;
+  
+  if(wild_yr2000_clean$taille.93JE3.2010[i] != -5
+     &amp; wild_yr2000_clean$latence.93JE3.2010[i] != 14)
+    wild_yr2000_clean[i,9] = &quot;Susceptible&quot;
+}
+
+# Plotting resistant vs susceptible poplars in terms of lab resistance
+(resist_lab = ggplot(wild_yr2000_clean, aes(x = Res_vs_sus_lab)) +
+  geom_bar(aes(fill = Res_vs_sus_lab)) +
+  geom_text(stat = &quot;count&quot;, aes(label = ..count..), vjust = -0.5) +
+  labs(title = &quot;Resistant vs susceptible poplars&quot;,
+       x = &quot;Resistant vs Susceptibe&quot;,
+       y = &quot;Counts&quot;) +
+  scale_fill_manual(values = c(&quot;#458B74&quot;, &quot;#EE3B3B&quot;),
+                    breaks = c(&quot;Resistant&quot;, &quot;Susceptible&quot;),
+                    name = &quot;Resistant vs Susceptible&quot;,
+                    labels = c(&quot;Resistant&quot;, &quot;Susceptible&quot;)) +
+  theme_classic() +
+  theme(axis.title.x = element_blank()))</code></pre>
+<p><img src="EDA_report_files/figure-html/res%20vs%20sus%20lab-1.png" width="672" /></p>
+<pre class="r"><code># Checking the population of origin of the resistant poplars (lab)
+pop2 = plyr::count(wild_yr2000_clean$Population[
+  which(wild_yr2000_clean$Res_vs_sus_lab == &quot;Resistant&quot;)
+])
+
+names(pop2)[1] = &quot;Population&quot;
+
+clone2 = plyr::count(wild_yr2000_clean$Clone[
+  which(wild_yr2000_clean$Res_vs_sus_lab == &quot;Resistant&quot;)
+])
+
+names(clone2)[1] = &quot;Clone&quot;
+
+pop2$Clone = paste(clone2$Clone)
+
+pop2</code></pre>
+<pre><code>##   Population freq  Clone
+## 1    Nohèdes    1 NOH-25</code></pre>
+<p>Seems that there are different poplars that are resistant in field and in the lab.</p>
+</div>
+<div id="obj-2-average-resistance.-data-dashboard-for-summary-statistics" class="section level1">
+<h1>Obj 2 Average resistance. Data dashboard for summary statistics</h1>
+<pre class="r"><code># Field resistance (notemax)
+# Removing -5 because they&#39;re outliers
+wild_yr2000_new = wild_yr2000_clean[which(wild_yr2000_clean$Notemax.2010 != -5 &amp;
+                                      wild_yr2000_clean$taille.93JE3.2010 != -5), ]
+
+summary(wild_yr2000_new)</code></pre>
+<pre><code>##              Classe          Population         Clone     Notemax.2010   latence.93JE3.2010 nbsores.93JE3.2010
+##  coll. Nationale: 0   Nohèdes     :13   6-J05      : 1   Min.   :1.833   Min.   : 7.550     Min.   : 9.556    
+##  nigrapop       :64   Ramières    :10   6-J13      : 1   1st Qu.:3.167   1st Qu.: 8.100     1st Qu.:24.275    
+##  parent 14x13   : 8   ValAllier   :10   6-J15      : 1   Median :3.833   Median : 8.425     Median :28.950    
+##  témoin         : 0   Gave-Mauleon: 6   71041-3-402: 1   Mean   :3.654   Mean   : 8.601     Mean   :30.168    
+##                       Baudreix    : 4   71077-2-308: 1   3rd Qu.:4.000   3rd Qu.: 8.912     3rd Qu.:36.825    
+##                       Sauveterre  : 4   92510-1    : 1   Max.   :5.400   Max.   :11.583     Max.   :56.700    
+##                       (Other)     :25   (Other)    :66                                                        
+##  taille.93JE3.2010 Res_vs_sus_note    Res_vs_sus_lab    
+##  Min.   :1.667     Length:72          Length:72         
+##  1st Qu.:3.575     Class :character   Class :character  
+##  Median :3.800     Mode  :character   Mode  :character  
+##  Mean   :3.787                                          
+##  3rd Qu.:4.200                                          
+##  Max.   :5.000                                          
+## </code></pre>
+<pre class="r"><code>NM = ggplot(wild_yr2000_new, aes(x = Notemax.2010)) +
+  geom_histogram(binwidth = 0.5) +
+  geom_density(aes(y = 0.3 * ..count..)) +
+  geom_vline(aes(xintercept = mean(Notemax.2010), color = &quot;Mean&quot;), size = 1) +
+  geom_vline(aes(xintercept = median(Notemax.2010), color = &quot;Median&quot;), size = 1) +
+  geom_vline(aes(xintercept = quantile(Notemax.2010, prob = 0.25), color = &quot;Q1&quot;), 
+             size = 1) +
+  geom_vline(aes(xintercept = quantile(Notemax.2010, prob = 0.75), color = &quot;Q3&quot;), 
+             size = 1) +
+  labs(title = &quot;Field resistance&quot;,
+       caption = &quot;number of samples = 72, sd = 0.63&quot;,
+       x = &quot;Score&quot;,
+       y = &quot;Counts&quot;) +
+  scale_color_manual(name = &quot;Statistics&quot;, values = c(Mean = &quot;red&quot;, Median = &quot;orange&quot;, Q1 = &quot;blue&quot;,
+                                                     Q3 = &quot;blue&quot;)) +
+  xlim(1, 6) +
+  ylim(0, 40)
+ 
+# Latent period (latence)
+LP = ggplot(wild_yr2000_new, aes(x = latence.93JE3.2010)) +
+  geom_histogram(binwidth = 0.5) +
+  geom_density(aes(y = 0.3 * ..count..)) +
+  geom_vline(aes(xintercept = mean(latence.93JE3.2010), color = &quot;Mean&quot;), size = 1) +
+  geom_vline(aes(xintercept = median(latence.93JE3.2010), color = &quot;Median&quot;), size = 1) +
+  geom_vline(aes(xintercept = quantile(latence.93JE3.2010, prob = 0.25), color = &quot;Q1&quot;), 
+             size = 1) +
+  geom_vline(aes(xintercept = quantile(latence.93JE3.2010, prob = 0.75), color = &quot;Q3&quot;), 
+             size = 1) +
+  labs(title = &quot;Latent period&quot;,
+       caption = &quot;sd = 0.69&quot;,
+       x = &quot;Days&quot;,
+       y = &quot;Counts&quot;) +
+  scale_color_manual(name = &quot;Statistics&quot;, values = c(Mean = &quot;red&quot;, Median = &quot;orange&quot;, Q1 = &quot;blue&quot;,
+                                                     Q3 = &quot;blue&quot;)) +
+  xlim(7, 12) +
+  ylim(0, 40)
+
+# sd(wild_yr2000_new$latence.93JE3.2010)
+
+# Number of spores
+NS = ggplot(wild_yr2000_new, aes(x = nbsores.93JE3.2010)) +
+  geom_histogram(binwidth = 1.0) +
+  geom_density(aes(y = 0.3 * ..count..)) +
+  geom_vline(aes(xintercept = mean(nbsores.93JE3.2010), color = &quot;Mean&quot;), size = 1) +
+  geom_vline(aes(xintercept = median(nbsores.93JE3.2010), color = &quot;Median&quot;), size = 1) +
+  geom_vline(aes(xintercept = quantile(nbsores.93JE3.2010, prob = 0.25), color = &quot;Q1&quot;), 
+             size = 1) +
+  geom_vline(aes(xintercept = quantile(nbsores.93JE3.2010, prob = 0.75), color = &quot;Q3&quot;), 
+             size = 1) +
+  labs(title = &quot;Number of spores&quot;,
+       caption = &quot;sd = 9.49&quot;,
+       x = &quot;Number (counts)&quot;,
+       y = &quot;Counts&quot;) +
+  scale_color_manual(name = &quot;Statistics&quot;, values = c(Mean = &quot;red&quot;, Median = &quot;orange&quot;, Q1 = &quot;blue&quot;,
+                                                     Q3 = &quot;blue&quot;)) +
+  xlim(0, 60) +
+  ylim(0, 40)
+
+# sd(wild_yr2000_new$nbsores.93JE3.2010)
+
+# Spore size
+SS = ggplot(wild_yr2000_new, aes(x = taille.93JE3.2010)) +
+  geom_histogram(binwidth = 0.5) +
+  geom_density(aes(y = 0.3 * ..count..)) +
+  geom_vline(aes(xintercept = mean(taille.93JE3.2010), color = &quot;Mean&quot;), size = 1) +
+  geom_vline(aes(xintercept = median(taille.93JE3.2010), color = &quot;Median&quot;), size = 1) +
+  geom_vline(aes(xintercept = quantile(taille.93JE3.2010, prob = 0.25), color = &quot;Q1&quot;), 
+             size = 1) +
+  geom_vline(aes(xintercept = quantile(taille.93JE3.2010, prob = 0.75), color = &quot;Q3&quot;), 
+             size = 1) +
+  labs(title = &quot;Spore size&quot;,
+       caption = &quot;sd = 0.68&quot;,
+       x = &quot;Score&quot;,
+       y = &quot;Counts&quot;) +
+  scale_color_manual(name = &quot;Statistics&quot;, values = c(Mean = &quot;red&quot;, Median = &quot;orange&quot;, Q1 = &quot;blue&quot;,
+                                                     Q3 = &quot;blue&quot;)) +
+  xlim(1, 5) +
+  ylim(0, 40)
+
+# sd(wild_yr2000_new$taille.93JE3.2010)
+quantile(wild_yr2000_new$nbsores.93JE3.2010, prob = 0.75)</code></pre>
+<pre><code>##    75% 
+## 36.825</code></pre>
+<pre class="r"><code># Combining the plots
+dist = ggpubr::ggarrange(NM, LP, NS, SS)
+
+dist</code></pre>
+<p><img src="EDA_report_files/figure-html/summary%20statistics-1.png" width="960" /></p>
+<ul>
+<li><p>Field resistance<br />
+Seems that the poplars are in intermediate resistance, on average. For a note, field resistance is measured using scoring system from 1 - 6; score 1 means that infection covers only a small area of leaves, score 6 means that infection covers almost all area of poplar leaves. In other words, when field resistance score is 1 then the poplar is resistant, when field resistance score is 6 then the poplar is susceptible.</p>
+<p>In the field, the score is a little bit more than 3, which means that the infection moderately covers poplar’s leaf area. This being said that the poplars are either resistant or susceptible in the field.</p></li>
+<li><p>Lab resistance, parameter: latent period<br />
+On average, poplars started showing the first infection (or symptoms) on day 8.5 after inoculation. Day 8.5 means that the infection starts on day 8 after midday. Seems that the poplars can inhibit the colonization of the pathogen until day 8, on average.</p></li>
+<li><p>Lab resistance, parameter: number of spores<br />
+Poplar individuals show a variable number of spores. Because of this, there are not many individuals that have similar number of spores (see the Y-axis scale). It seems that there are 2 peaks in the distribution, showing the segregation between indivdiuals. This is the indication that the population is made of 2 groups of populations. On average, the poplars are colonized by 30 spores (max = 56 spores) even though there are not so many poplars colonized by 30 spores. There are more poplars colonized by either 25 or 36 spores, indicating that the poplars may be moderately resistant.</p></li>
+<li><p>Lab resistance, parameter: size of spores<br />
+On average, the size of spores is scored closer to 4 than to 3. It shows that the poplars cannot inhibit the development of the pathogen’s spore once the spores colonize the poplars. It shows that the poplars are rather susceptible for this type of pathogen (code: rust 93JE3)</p></li>
+<li><p>Overall<br />
+The poplars are closer to being susceptible than to being resistant in the lab for this particular type of pathogen (code: rust 93JE3). Despite being able to inhibit the colonization of pathogen’s spores on the leaves, the poplars couldn’t inhibit the growth of pathogen’s spores at the end. While it is good to inhibit the number of spore colonization, it is more important to inhibit the growth of spore so that the spore do not cover the leaves. This is because if the poplars allow the spore to cover the leaf area, the poplars are at risk to reduced growth due to inefficient photosynthesize.</p></li>
+</ul>
+</div>
+<div id="obj-3-correlation-between-field-resistance-and-lab-resistance" class="section level1">
+<h1>Obj 3 Correlation between field resistance and lab resistance</h1>
+<p>To observe the relationships between the parameters of resistance. Furthermore, to see if field resistance can be explained by the parameters of lab resistance or not.</p>
+<pre class="r"><code>LP_NM = ggpubr::ggscatter(wild_yr2000_new, 
+                          x = &quot;latence.93JE3.2010&quot;, y = &quot;Notemax.2010&quot;,
+                          add = &quot;reg.line&quot;, conf.int = TRUE,
+                          cor.coef = TRUE, cor.method = &quot;pearson&quot;,
+                          xlab = &quot;Latent Period&quot;, ylab = &quot;Field Resistance&quot;)
+
+NS_NM = ggpubr::ggscatter(wild_yr2000_new, 
+                          x = &quot;nbsores.93JE3.2010&quot;, y = &quot;Notemax.2010&quot;,
+                          add = &quot;reg.line&quot;, conf.int = TRUE,
+                          cor.coef = TRUE, cor.method = &quot;pearson&quot;,
+                          xlab = &quot;Number of spores&quot;, ylab = &quot;Field Resistance&quot;)
+
+SS_NM = ggpubr::ggscatter(wild_yr2000_new, 
+                          x = &quot;taille.93JE3.2010&quot;, y = &quot;Notemax.2010&quot;,
+                          add = &quot;reg.line&quot;, conf.int = TRUE,
+                          cor.coef = TRUE, cor.method = &quot;pearson&quot;,
+                          xlab = &quot;Spore Size&quot;, ylab = &quot;Field Resistance&quot;)
+
+corr = ggpubr::ggarrange(LP_NM, NS_NM, SS_NM)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;
+## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre class="r"><code>corr</code></pre>
+<p><img src="EDA_report_files/figure-html/correlation-1.png" width="672" /></p>
+<p>It seems that there are no clear correlation between field and lab resistance. It seems unclear whether lab resistance can explain or predict field resistance.</p>
+</div>
+<div id="obj-4-correlation-between-parameters-of-lab-resistance" class="section level1">
+<h1>Obj 4 Correlation between parameters of lab resistance</h1>
+<pre class="r"><code># Designing the main correlation plot latence x taille
+(main_cor = ggpubr::ggscatter(wild_yr2000_new,
+                              x = &quot;latence.93JE3.2010&quot;, y = &quot;taille.93JE3.2010&quot;,
+                              add = &quot;reg.line&quot;, conf.int = TRUE,
+                              color = &quot;Classe&quot;, palette = &quot;jco&quot;,
+                              shape = &quot;Classe&quot;, size = 2,
+                              alpha = 0.6, ggtheme = theme_bw(),
+                              xlab = &quot;Latent period (days)&quot;, 
+                              ylab = &quot;Spore size (score)&quot;) +
+  stat_cor(aes(color = Classe)))  # correlation line</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="EDA_report_files/figure-html/corr%20LP%20x%20SS-1.png" width="672" /></p>
+<pre class="r"><code># Because I differentiated correlation for parent and nigrapop, I want to provide
+# the density histogram for poplars from parent and nigrapop
+
+# Density histogram for latent period, plotted at x axis
+xdens = axis_canvas(main_cor, axis = &quot;x&quot;) +  # create the canvas base
+  geom_density(data = wild_yr2000_new, 
+               aes(x = latence.93JE3.2010, fill = Classe),
+               alpha = 0.7, size = 0.2) +  # density histogram for latence
+  ggpubr::fill_palette(&quot;jco&quot;)  # color palette for fill </code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre class="r"><code># Density histogram for taille, plotted at y axis
+ydens = axis_canvas(main_cor, axis = &quot;y&quot;, coord_flip = TRUE) +
+  geom_density(data = wild_yr2000_new, 
+               aes(x = taille.93JE3.2010, fill = Classe),
+               alpha = 0.7, size = 0.2) +  # density histogram for taille
+  coord_flip() +  # flipping the coordinate, 90 degrees
+  ggpubr::fill_palette(&quot;jco&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre class="r"><code># Adding xdens on the x axis of correlation plot
+main_cor1 = cowplot::insert_xaxis_grob(main_cor, xdens,
+                                       grid::unit(0.2, &quot;null&quot;), 
+                                       position = &quot;top&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<pre class="r"><code># Adding ydens on the y axis of correlation plot
+main_cor2 = cowplot::insert_yaxis_grob(main_cor1, ydens,
+                                       grid::unit(0.2, &quot;null&quot;), 
+                                       position = &quot;right&quot;)
+
+cowplot::ggdraw(main_cor2)</code></pre>
+<p><img src="EDA_report_files/figure-html/corr%20LP%20x%20SS-2.png" width="672" /></p>
+<pre class="r"><code># Saving the plot
+ggsave(&quot;correlation_plot.png&quot;,
+       device = &quot;png&quot;,
+       width = 15,
+       height = 10,
+       units = &quot;cm&quot;,
+       dpi = 300)</code></pre>
+<p>It seems that there is a clear correlation between the parameters of lab resistance (latent period and spore size)</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
