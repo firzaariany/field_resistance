@@ -1,6 +1,6 @@
 name: "Research Journal - Field Resistance"
 output_dir: "docs"  #output dir at github repo
-navbar:  #for the tabs
+navbar:
   title: "Research Journal"
   left:
   - text: "Description"  #tab1
