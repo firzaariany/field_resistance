@@ -1,16 +1,5 @@
 ---
 title: "Description"
-knit: (function(input_file, encoding) {
-  out_dir <- 'docs';
-  rmarkdown::render(input_file,
- encoding=encoding,
- output_file=file.path(dirname(input_file), out_dir, 'description.html'))})
-
-author: "Firza Riany"
-date: "20/11/2020"
-output: 
-  html_document:
-    toc: TRUE
 ---
 
 # Description

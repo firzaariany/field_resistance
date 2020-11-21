@@ -1,13 +1,5 @@
 ---
 title: "EDA dashboard"
-knit: (function(input_file, encoding) {
-  out_dir <- 'docs';
-  rmarkdown::render(input_file,
- encoding=encoding,
- output_file=file.path(dirname(input_file), out_dir, 'data_dashboard.html'))})
-author: "Firza Riany"
-date: "20/11/2020"
-output: html_document
 ---
 
 ```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
