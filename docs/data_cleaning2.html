@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data cleaning</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Research Journal</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="data_cleaning2.html">Data Cleaning</a>
+</li>
+<li>
+  <a href="data_dashboard.html">Dashboard</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data cleaning</h1>
+
+</div>
+
+
+<div id="data-cleaning-identifying-nas" class="section level1">
+<h1>Data cleaning: identifying NAs</h1>
+<pre class="r"><code># Examine NAs with ff_glimpse (package = finalfit)
+explanatory = c(&quot;latence.93JE3.2010&quot;,
+                &quot;nbsores.93JE3.2010&quot;,
+                &quot;taille.93JE3.2010&quot;)
+
+dependent = &quot;Notemax.2010&quot;
+
+wild_yr2000 %&gt;%
+  finalfit::ff_glimpse(dependent, explanatory)</code></pre>
+<pre><code>## $Continuous
+##                                 label var_type  n missing_n missing_percent mean   sd min quartile_25 median
+## Notemax.2010             Notemax.2010    &lt;dbl&gt; 81        12            12.9  3.7  0.7 1.8         3.4    3.8
+## latence.93JE3.2010 latence.93JE3.2010    &lt;dbl&gt; 86         7             7.5  8.6  0.9 7.5         8.1    8.4
+## nbsores.93JE3.2010 nbsores.93JE3.2010    &lt;dbl&gt; 93         0             0.0 27.1 12.5 0.0        21.5   27.2
+## taille.93JE3.2010   taille.93JE3.2010    &lt;dbl&gt; 85         8             8.6  3.9  0.7 1.7         3.6    4.0
+##                    quartile_75  max
+## Notemax.2010               4.0  5.8
+## latence.93JE3.2010         8.9 14.0
+## nbsores.93JE3.2010        36.3 56.7
+## taille.93JE3.2010          4.2  5.0
+## 
+## $Categorical
+## # A tibble: 93 x 0</code></pre>
+<ol style="list-style-type: decimal">
+<li>Missing percent for Notemax = 12.9 (ratio = 12/93)<br />
+</li>
+<li>Missing percent for latence = 7.5 (ratio = 7/93)<br />
+</li>
+<li>Missing percent for nbsores = 0.0 (ratio = 0/93)<br />
+</li>
+<li>Missing percent for taille = 8.6 (ratio = 8/93)</li>
+</ol>
+<pre class="r"><code># Plotting the missing data
+wild_yr2000 %&gt;% 
+  finalfit::missing_plot()</code></pre>
+<p><img src="data_cleaning2_files/figure-html/plot%20missing%20data-1.png" width="672" /></p>
+<pre class="r"><code># NAs in notemax, latence, and taille
+# When when latence is missing, taille is most likely to be missing as well
+# Check if the missing data in taille is due to missing data in latence?
+
+# Checking the relatedness of the missing data in these two variables 
+# using missing_pairs
+# testing H0 = missing points are MCAR (missing compeletely at random)
+explanatory_1 = &quot;latence.93JE3.2010&quot;
+
+dependent_1 = &quot;taille.93JE3.2010&quot;
+
+wild_yr2000 %&gt;% 
+  finalfit::missing_compare(dependent_1, explanatory_1) %&gt;%
+  knitr::kable(row.names = FALSE, align = c(&quot;l&quot;, &quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Missing data analysis: taille.93JE3.2010</th>
+<th align="left"></th>
+<th align="right">Not missing</th>
+<th align="right">Missing</th>
+<th align="right">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">latence.93JE3.2010</td>
+<td align="left">Mean (SD)</td>
+<td align="right">8.6 (0.7)</td>
+<td align="right">14.0 (NA)</td>
+<td align="right">&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># P significant, missing data in taille is due to missing data in latence</code></pre>
+<p>The model (missing_pairs) shows that there is a significant difference in the mean of spore size (taille) when there are missing data in latent period (latence) and when there are not.</p>
+<blockquote>
+<p>It means that the missing data in latence is related to the missing data in taille.</p>
+</blockquote>
+<blockquote>
+<p>Biologically speaking, it’s how it usually is in the interaction between pathogen and the host. When latence is missing, it means that the leaves do not show symptoms during their 14 days in growth chamber (latence is non-measurable). When latence is non-measurable, it is very likely that the number of spores and spore size are non-measurable as well because the leaves do not show symptoms.</p>
+</blockquote>
+<blockquote>
+<p>This is also an indication that the leaves are resistant to the pathogen.</p>
+</blockquote>
+<p>And this also means that there are systemic relationship among the lab resistance.</p>
+<p>Solutions:<br />
+1. To build a dashboard, we cannot exclude these missing data as they show the potential resistant poplars<br />
+2. But we should exclude them when we model the relationship between field and lab resistance</p>
+<hr />
+<p>What about between latence and field resistance?</p>
+<pre class="r"><code>explanatory_2 = &quot;Notemax.2010&quot;
+
+dependent_2 = &quot;latence.93JE3.2010&quot;
+
+wild_yr2000 %&gt;% 
+  finalfit::missing_compare(dependent_2, explanatory_2) %&gt;%
+  knitr::kable(row.names = FALSE, align = c(&quot;l&quot;, &quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Missing data analysis: latence.93JE3.2010</th>
+<th align="left"></th>
+<th align="right">Not missing</th>
+<th align="right">Missing</th>
+<th align="right">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Notemax.2010</td>
+<td align="left">Mean (SD)</td>
+<td align="right">3.7 (0.6)</td>
+<td align="right">4.6 (0.8)</td>
+<td align="right">0.002</td>
+</tr>
+</tbody>
+</table>
+<p>It seems that the missing data in latence do not relate to the missing data in field resistance (MACR)</p>
+<p>The missing data in notemax are also due to the missing infection on the poplar leaves in the field. This shows that the leaves might not be infected by the pathogen, showing the potential of the related poplar to be resistant.</p>
+<p>Therefore, these missing data should be included to build a dashboard for the share between resistant and susceptible poplars.</p>
+</div>
+<div id="data-cleaning-excluding-controls-témoin-and-poplars-from-national-collection" class="section level1">
+<h1>Data cleaning: Excluding controls (témoin) and poplars from national collection</h1>
+<p>To inspect resistant vs susceptible poplars, we have to exclude the ‘discriminants’ or the controls (temoin).</p>
+<p>This is because they are just the controls for the infection in other poplars. We have to clean the dataset from these controls to get a better look only on the poplars from natural population and breeding population.</p>
+<p>We should also exclude the poplars from national collection (collection nationale) because it seems that these poplars were not tested in the field. Including these in linear regression will only create bias.</p>
+<pre class="r"><code>rownames_remove &lt;- c(&quot;témoin&quot;, &quot;coll. Nationale&quot;)
+
+wild_yr2000_clean = subset(wild_yr2000,!(Classe %in% rownames_remove))</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

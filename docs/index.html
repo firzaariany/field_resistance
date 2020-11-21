@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Firza Riany" />
 
 
-<title>index</title>
+<title>Research Journal</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -249,6 +251,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -256,6 +321,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -268,12 +343,18 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Journal</a>
+      <a class="navbar-brand" href="index.html">Research Journal</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">Correlation</a>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="data_cleaning2.html">Data Cleaning</a>
+</li>
+<li>
+  <a href="data_dashboard.html">Dashboard</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -287,35 +368,157 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">index</h1>
-<h4 class="author">Firza Riany</h4>
-<h4 class="date">19/11/2020</h4>
+<h1 class="title toc-ignore">Research Journal</h1>
 
 </div>
 
 
-<div id="r-markdown" class="section level2">
-<h2>R Markdown</h2>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
+<div id="description" class="section level1">
+<h1>Description</h1>
+<p><strong>About the raw dataset and the species used</strong></p>
+<p>This analysis is to find the relationship between resistance measured in the field (field resistance) and measured in the lab (lab resistance).</p>
+<p>The raw data consists of the measurement in field from year 2000 to 2010, as well as measurement in the lab for the same period.</p>
+<p>The spesies is Populus nigra (poplar) that was collected from several natural populations and sources in Western Europe.</p>
+<hr />
+<p><strong>Why poplar?</strong></p>
+<p>Poplar is usually attacked by rust fungus that causes yellow spots on the poplar leaves. These spots reduce poplar’s effectiveness in carrying out photosynthesis processes because these spots are covering the stomata in the leaves and reducing poplar’s leaf area to catch sunrays. The impact of the massive attack caused by rust fungus is a decreased photosynthesis and growth rate which also lead to economic losses.</p>
+<hr />
+<p><strong>Collecting resistance data</strong></p>
+<p>The idea of collecting these resistance data is to find the resistant poplar that can fight back the rust fungus.</p>
+<p><em>Field resistance</em></p>
+<p>Field resistance (Notemax) is measured in the field by scoring the infection on poplar leaves (score 1 - 6)</p>
+<p><em>Lab resistance</em></p>
+<p>Lab resistance is consisted of 3 parameters: latent period (latence), number of spores on the leaves (nbsores), and spore size (taille). These parameters are measured in the lab. The poplar leaves are firstly cut into disks and they are put in the leaf disks for the lab experiment. The experiment then starts by infecting the poplar leaves with different types of rust fungus (in the data set, they are coded like 98AG69, 93JE3, etc). Then they are put in the growth chamber for 14 days.</p>
+<p>During 14 days, we observe: 1. Latent period = the time needed by the poplar leaves to start showing the first symptom, measured daily<br />
+2. Number of spores = number of spores found on the leaves, measured on the day 13 after infection<br />
+3. Spore size = size of the spores, measured on the day 14 after inoculation using a scoring system (1 to 5, 1 being the smallest, 5 being the largest)</p>
+<hr />
 </div>
-<div id="including-plots" class="section level2">
-<h2>Including Plots</h2>
-<p>You can also embed plots, for example:</p>
-<p><img src="index_files/figure-html/pressure-1.png" width="672" /></p>
-<p>Note that the <code>echo = FALSE</code> parameter was added to the code chunk to prevent printing of the R code that generated the plot.</p>
+<div id="whats-in-the-script" class="section level1">
+<h1>What’s in the script</h1>
+<ol style="list-style-type: decimal">
+<li>Raw dataset<br />
+</li>
+<li>Identification of missing data (data cleaning)<br />
+</li>
+<li>EDA and data dashboard<br />
+</li>
+<li>Correlation plot</li>
+</ol>
+<hr />
+</div>
+<div id="the-objectives" class="section level1">
+<h1>The objectives</h1>
+<ol style="list-style-type: decimal">
+<li>Are there a completely resistant poplar in the field and in the lab?</li>
+<li>What is the average resistance for poplar in the field and in the lab?</li>
+<li>Is there a correlation between field resistance and lab resistance?</li>
+<li>Is there a correlation between the parameters of lab resistance?</li>
+</ol>
+<hr />
+</div>
+<div id="about-the-raw-dataset" class="section level1">
+<h1>About the raw dataset</h1>
+<p>Poplar species used in this dataset is Populus nigra Raw dataset contains: * Classe = classes of poplar’s population source<br />
+témoin = control<br />
+parent 14x13 = poplar generated from other breeding program<br />
+nigrapop = poplar collected from natural populations<br />
+coll. nationale = poplar collected from (French) national collection)</p>
+<ul>
+<li><p>Population = the name of the population source</p></li>
+<li><p>Department = the region where the population is located<br />
+</p></li>
+<li><p>Clone = the assigned name for each observed poplar<br />
+</p></li>
+<li><p>Stabilité intersouche and Nb plants en serre41 = additional information (not considered as variables)<br />
+</p></li>
+<li><p>Notemax = poplar infection measured in the field using scoring system (1 - 6), the year following “Notemax” indicates the year it was measured, and city names following the year indicates the location it was measured<br />
+</p></li>
+<li><p>Latence = latent period (the time needed by poplars to start showing the first symptoms, observed in days in a lab experiment)<br />
+</p></li>
+<li><p>Nbsores = number of spores on poplar leaves, measured in counts<br />
+</p></li>
+<li><p>Taille = size of spores on poplar leaves, measured using scoring system 1 - 5 (1 being the smallest, 5 being the largest) Codes following “Latence”, “nbsores”, and “taille” indicate the types of pathogen that infect poplar. The year following it indicates the year it was measured</p></li>
+</ul>
+</div>
+<div id="libraries" class="section level1">
+<h1>Libraries</h1>
+<pre class="r"><code>library(readxl)  # to import the data in xlsx file
+library(finalfit)  # for function ffglimpse(), extension of summary
+library(ggplot2)  # for plotting
+library(plyr)  # for counting the frequency from histogram
+library(ggpubr)  # to get the function ggarrange; to combine ggplots
+library(cowplot)  # to draw density histogram at the sides of correlation plot</code></pre>
+</div>
+<div id="the-dataset" class="section level1">
+<h1>The dataset</h1>
+<pre class="r"><code>pop_raw = readxl::read_xlsx(&quot;Tested_Poplar.xlsx&quot;,
+                            na = &quot;NA&quot;)  # defining the code for missing data used in the file
+# Getting only the important variables
+wild_yr2000 = pop_raw[,c(&quot;Classe&quot;,  # the type of population source 
+                         &quot;Population&quot;,  # population of origin
+                         &quot;Clone&quot;,  # the observed poplar individuals
+                         &quot;Notemax.2010 Noveltree&quot;,  # field resistance 
+                         &quot;latence.93JE3.2010&quot;,   # latent period
+                         &quot;nbsores.93JE3.2010&quot;,  # number of spores
+                         &quot;taille.93JE3.2010&quot;)]  # size of spores
+
+colnames(wild_yr2000)[4] = &quot;Notemax.2010&quot;  # because the name was too long
+
+# Check the class of each variable
+str(wild_yr2000)</code></pre>
+<pre><code>## tibble [93 x 7] (S3: tbl_df/tbl/data.frame)
+##  $ Classe            : chr [1:93] &quot;témoin&quot; &quot;témoin&quot; &quot;témoin&quot; &quot;témoin&quot; ...
+##  $ Population        : chr [1:93] &quot;discriminant&quot; &quot;discriminant&quot; &quot;discriminant&quot; &quot;discriminant&quot; ...
+##  $ Clone             : chr [1:93] &quot;ROBUSTA&quot; &quot;OGY&quot; &quot;CANDICANS&quot; &quot;BRABANTICA&quot; ...
+##  $ Notemax.2010      : num [1:93] 3.83 4.1 4.5 4 4.91 ...
+##  $ latence.93JE3.2010: num [1:93] 8.3 NA 8.7 NA 7.65 NA NA NA NA NA ...
+##  $ nbsores.93JE3.2010: num [1:93] 37.1 0 12 0 28.4 0 0 0 0 0 ...
+##  $ taille.93JE3.2010 : num [1:93] 4.4 NA 5 NA 5 NA NA NA NA NA ...</code></pre>
+<pre class="r"><code># Coercing
+## Classe = chr to factor
+## Population = chr to factor
+## Clone = chr to factor
+cols = c(&quot;Classe&quot;, &quot;Population&quot;, &quot;Clone&quot;)  # cols to be coerced
+
+wild_yr2000[cols] = lapply(wild_yr2000[cols], factor)  # coerced to factor
+
+# New data structure
+str(wild_yr2000)</code></pre>
+<pre><code>## tibble [93 x 7] (S3: tbl_df/tbl/data.frame)
+##  $ Classe            : Factor w/ 4 levels &quot;coll. Nationale&quot;,..: 4 4 4 4 4 4 4 4 4 4 ...
+##  $ Population        : Factor w/ 33 levels &quot;?&quot;,&quot;Assat&quot;,&quot;Baliros&quot;,..: 12 12 12 12 12 12 12 12 12 12 ...
+##  $ Clone             : Factor w/ 93 levels &quot;6-J05&quot;,&quot;6-J13&quot;,..: 77 64 41 38 89 76 11 10 36 46 ...
+##  $ Notemax.2010      : num [1:93] 3.83 4.1 4.5 4 4.91 ...
+##  $ latence.93JE3.2010: num [1:93] 8.3 NA 8.7 NA 7.65 NA NA NA NA NA ...
+##  $ nbsores.93JE3.2010: num [1:93] 37.1 0 12 0 28.4 0 0 0 0 0 ...
+##  $ taille.93JE3.2010 : num [1:93] 4.4 NA 5 NA 5 NA NA NA NA NA ...</code></pre>
+</div>
+<div id="raw-distribution" class="section level1">
+<h1>Raw distribution</h1>
+<pre class="r"><code>par(mfrow = c(2,2))  # combine the graphs (2 columns, 2 rows)
+
+# Create a dataframe for loop
+raw_loop = data.frame(&quot;note&quot; = wild_yr2000$Notemax.2010,
+                      &quot;latence&quot; = wild_yr2000$latence.93JE3.2010,
+                      &quot;nbsores&quot; = wild_yr2000$nbsores.93JE3.2010,
+                      &quot;taille&quot; = wild_yr2000$taille.93JE3.2010)
+
+for (i in 1:4) {  # 1:4 for the number of variables used
+  x = raw_loop[,i]  # assign x for each iteration
+  title = names(raw_loop[i])  # title for each iteration
+  hist(x,
+       main = title)  # create histogram in each iteration
+}</code></pre>
+<p><img src="index_files/figure-html/raw%20distribution-1.png" width="672" /></p>
+<p>Seems that there are no outliers.</p>
+<p>Latent period is not normally distributed, which is fine, biologically speaking. It shows that there is greater amount of poplars that start showing symptoms in early time than in later time. Showing that most poplars are infected early. Meaning that they are susceptible to the pathogen in the lab.</p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -348,6 +551,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
