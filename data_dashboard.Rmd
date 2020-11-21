@@ -1,5 +1,17 @@
 ---
 title: "EDA dashboard"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'data_dashboard.html'))})
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    collapsed: false
+    number_sections: false
+    toc_depth: 1
 ---
 
 ```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
@@ -383,4 +395,4 @@ ggsave("correlation_plot.png",
 ```
 
 It seems that there is a clear correlation between the parameters of lab resistance
-(latent period and spore size)
+(latent period and spore size).
