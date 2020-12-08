@@ -308,11 +308,36 @@ the growth of spore so that the spore do not cover the leaves. This is because
 if the poplars allow the spore to cover the leaf area, the poplars are at risk
 to reduced growth due to inefficient photosynthesize.
 
+# Obj 3 The origins of black poplar individuals
+```{r bar chart population}
+
+ggplot(wild_yr2000_clean, aes(x = Population)) +
+  geom_bar()
+
+# remove (?) --> let's see later
+# sort from the population with the highest count
+# vertical text
+# split between parents and natural pop (facet)
+
+#(resist_field = ggplot(wild_yr2000_clean, aes(x = Res_vs_sus_note)) +
+  # geom_bar(aes(fill = Res_vs_sus_note)) +
+  # geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
+  # labs(title = "Resistant vs susceptible poplars",
+       # x = "Resistant vs Susceptibe",
+       # y = "Counts") +
+  # scale_fill_manual(values = c("#87CEEB", "#FF6A6A"),
+                    # breaks = c("Resistant", "Susceptible"),
+                    # name = "Resistant vs Susceptible",
+                    # labels = c("Resistant", "Susceptible")) +
+  #theme_classic() +
+  #theme(axis.title.x = element_blank()))
+
+```
+
 # Obj 3 Correlation between field resistance and lab resistance
 To observe the relationships between the parameters of resistance. Furthermore, 
 to see if field resistance can be explained by the parameters of lab resistance
 or not.
-
 ```{r correlation, message=FALSE, warning=FALSE}
 LP_NM = ggpubr::ggscatter(wild_yr2000_new, 
                           x = "latence.93JE3.2010", y = "Notemax.2010",
