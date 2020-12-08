@@ -308,16 +308,83 @@ the growth of spore so that the spore do not cover the leaves. This is because
 if the poplars allow the spore to cover the leaf area, the poplars are at risk
 to reduced growth due to inefficient photosynthesize.
 
-# Obj 3 The origins of black poplar individuals
-```{r bar chart population}
+# Obj 3 Observing the origins of poplar individuals collected from parent population and natural population
+```{r bar chart classe}
+x_labs = c("Natural Population", "Parent Population")
 
-ggplot(wild_yr2000_clean, aes(x = Population)) +
-  geom_bar()
+ggplot(wild_yr2000_clean, aes(x = Classe)) +
+  geom_bar(aes(fill = Classe)) + 
+  geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
+  scale_x_discrete(labels = x_labs) +
+  ggpubr::fill_palette("jco") +
+  labs(x = NULL, y = "Counts", title = "The types of black poplar individuals") +
+  theme_bw() +
+  theme(panel.grid.major = element_blank(),
+        legend.position = "none")
+```
+The poplar individuals were consisted of poplars collected from natural population and from parent population.  
 
+Parent population means that these poplars have been used in a breeding program. Poplars are managed as hybrids. 
+Hybrids are individuals created from 2 different species. In this case, hybrid poplar can be created from parents
+Populus deltoides x Populus nigra (P. nigra is the scientific name of black poplar). So poplar individuals collected from parent population means that these individuals are used as a parent in breeding hybrid poplars.
+
+So let's see their origins.
+
+## Obj 3.1 The origins of poplar from natural and parent population
+```{r origin natural vs parent}
+
+ggplot(wild_yr2000_clean, aes(x = Population)) + 
+  geom_bar() +  # barchart
+  facet_wrap(~ Classe) +  # faceted by parents and natural pop
+  geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+```
+ValdeLoire = centre valdeloire
+Selles_sur_Cher = centre valdeloire
+Bonny = centre valdeloire
+
+Ramières = Auvergne-Rhône-Alpes
+ValAllier = Auvergne-Rhône-Alpes
+St_Jean_de_Maurienne = Auvergne-Rhône-Alpes
+Meximieux = Auvergne-Rhône-Alpes
+St_Genix_sur_Guiers = Auvergne-Rhône-Alpes
+
+Tarbes = Occitanie region
+Nohèdes = Occitanie
+Sauveterre = Occitanie
+Cauterets = Occitanie
+
+StPrivé = Bourgogne-Franche-Comté
+La_Celle_sur_Loire = Bourgogne-Franche-Comté
+
+Sarrazin = Nouvelle-Aquitaine
+Gave-Mauleon = Nouvelle-Aquitaine
+Baudreix = Nouvelle-Aquitaine
+Baliros = Nouvelle-Aquitaine
+Assat = Nouvelle-Aquitaine
+
+Pont_de_Cé = Pays de la Loire
+Cunault = Pays de la Loire
+
+Cazebonne = Bordeaux
+
+
+# Obj 3 Correlation between field resistance and lab resistance
+To observe the relationships between the parameters of resistance. Furthermore, 
+to see if field resistance can be explained by the parameters of lab resistance
+or not.
+```{r correlation, message=FALSE, warning=FALSE}
+
+
+  
 # remove (?) --> let's see later
 # sort from the population with the highest count
-# vertical text
-# split between parents and natural pop (facet)
+# vertical text *checked
+# split between parents and natural pop (facet) *checked
+# add data label *checked
+
 
 #(resist_field = ggplot(wild_yr2000_clean, aes(x = Res_vs_sus_note)) +
   # geom_bar(aes(fill = Res_vs_sus_note)) +
@@ -331,14 +398,6 @@ ggplot(wild_yr2000_clean, aes(x = Population)) +
                     # labels = c("Resistant", "Susceptible")) +
   #theme_classic() +
   #theme(axis.title.x = element_blank()))
-
-```
-
-# Obj 3 Correlation between field resistance and lab resistance
-To observe the relationships between the parameters of resistance. Furthermore, 
-to see if field resistance can be explained by the parameters of lab resistance
-or not.
-```{r correlation, message=FALSE, warning=FALSE}
 LP_NM = ggpubr::ggscatter(wild_yr2000_new, 
                           x = "latence.93JE3.2010", y = "Notemax.2010",
                           add = "reg.line", conf.int = TRUE,
