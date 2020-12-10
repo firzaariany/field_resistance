@@ -332,44 +332,81 @@ So let's see their origins.
 
 ## Obj 3.1 The origins of poplar from natural and parent population
 ```{r origin natural vs parent}
+# Insert a new column for "Region"
+library(tibble)
+wild_copy = wild_yr2000_clean
 
-ggplot(wild_yr2000_clean, aes(x = Population)) + 
+wild_copy = tibble::add_column(wild_copy, "Region" = "NA", .after = "Population")
+
+# Assigning the population to their region
+for (j in c(1:nrow(wild_copy))) {
+  if(wild_copy$Population[j] == "ValdeLoire" | 
+     wild_copy$Population[j] == "Selles_sur_Cher" |
+    wild_copy$Population[j] == "Bonny"){
+    wild_copy$Region[j] = "Centre_Val_de_Loire"
+  } 
+  
+  if(wild_copy$Population[j] == "Ramières" | 
+     wild_copy$Population[j] == "ValAllier" |
+     wild_copy$Population[j] == "St_Jean_de_Maurienne" |
+     wild_copy$Population[j] == "Meximieux" | 
+     wild_copy$Population[j] == "St_Genix_sur_Guiers"){
+    wild_copy$Region[j] = "Auvergne_Rhone_Alpes"
+  } 
+  
+  if(wild_copy$Population[j] == "Tarbes" | 
+     wild_copy$Population[j] == "Nohèdes" |
+     wild_copy$Population[j] == "Sauveterre" |
+     wild_copy$Population[j] == "Cauterets"){
+    wild_copy$Region[j] = "Occitanie"
+  }
+  
+  if(wild_copy$Population[j] == "StPrivé" | 
+     wild_copy$Population[j] == "La_Celle_sur_Loire"){
+    wild_copy$Region[j] = "Bourgogne_Franche_Comte"
+  }
+  
+  if(wild_copy$Population[j] == "Sarrazin" | 
+     wild_copy$Population[j] == "Gave-Mauleon" |
+     wild_copy$Population[j] == "Baudreix" |
+     wild_copy$Population[j] == "Baliros" | 
+     wild_copy$Population[j] == "Assat"){
+    wild_copy$Region[j] = "Nouvelle_Aquitaine"
+  }
+  
+  if(wild_copy$Population[j] == "Pont_de_Cé" | 
+     wild_copy$Population[j] == "Cunault"){
+    wild_copy$Region[j] = "Pays_de_la_Loire"
+  }
+  
+  if(wild_copy$Population[j] == "Cazebonne"){
+    wild_copy$Region[j] = "Bordeaux"
+  }
+  
+}
+
+lab_names = c("Natural Population", "Parent Population")
+names(lab_names) = c("nigrapop", "parent 14x13")
+
+x_labels = c("Auvergne Rhône Alpes", "Bordeaux",
+             "Bourgogne Franche Comté", "Centre-Val de Loire",
+             "Unknown", "Nouvelle Aquitaine",
+             "Occitanie", "Pays de la Loire")
+
+levels(wild_copy$Region)
+str(wild_copy)
+wild_copy$Region = factor(wild_copy$Region)
+  
+ggplot(wild_copy, aes(x = Region)) + 
   geom_bar() +  # barchart
-  facet_wrap(~ Classe) +  # faceted by parents and natural pop
+  scale_x_discrete(labels = x_labels) +
+  facet_wrap(~ Classe, labeller = labeller(Classe = lab_names)) +  # faceted by parents and natural pop
+  labs( x = NULL, y = "Counts", title = "Population origins of black poplar individuals" ) +
   geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
 
 ```
-ValdeLoire = centre valdeloire
-Selles_sur_Cher = centre valdeloire
-Bonny = centre valdeloire
-
-Ramières = Auvergne-Rhône-Alpes
-ValAllier = Auvergne-Rhône-Alpes
-St_Jean_de_Maurienne = Auvergne-Rhône-Alpes
-Meximieux = Auvergne-Rhône-Alpes
-St_Genix_sur_Guiers = Auvergne-Rhône-Alpes
-
-Tarbes = Occitanie region
-Nohèdes = Occitanie
-Sauveterre = Occitanie
-Cauterets = Occitanie
-
-StPrivé = Bourgogne-Franche-Comté
-La_Celle_sur_Loire = Bourgogne-Franche-Comté
-
-Sarrazin = Nouvelle-Aquitaine
-Gave-Mauleon = Nouvelle-Aquitaine
-Baudreix = Nouvelle-Aquitaine
-Baliros = Nouvelle-Aquitaine
-Assat = Nouvelle-Aquitaine
-
-Pont_de_Cé = Pays de la Loire
-Cunault = Pays de la Loire
-
-Cazebonne = Bordeaux
-
 
 # Obj 3 Correlation between field resistance and lab resistance
 To observe the relationships between the parameters of resistance. Furthermore, 
