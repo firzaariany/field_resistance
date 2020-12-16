@@ -168,6 +168,8 @@ pop2
 
 Seems that there are different poplars that are resistant in field and in the lab.
 
+---
+
 # Obj 2 Average resistance. Data dashboard for summary statistics
 ```{r summary statistics, fig.height=5, fig.width=10, message=FALSE, warning=FALSE}
 # Field resistance (notemax)
@@ -308,11 +310,13 @@ the growth of spore so that the spore do not cover the leaves. This is because
 if the poplars allow the spore to cover the leaf area, the poplars are at risk
 to reduced growth due to inefficient photosynthesize.
 
+---
+
 # Obj 3 Observing the origins of poplar individuals collected from parent population and natural population
-```{r bar chart classe}
+```{r bar chart classe, fig.height=5, fig.width=7}
 x_labs = c("Natural Population", "Parent Population")
 
-ggplot(wild_yr2000_clean, aes(x = Classe)) +
+ggplot(wild_yr2000_new, aes(x = Classe)) +
   geom_bar(aes(fill = Classe)) + 
   geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
   scale_x_discrete(labels = x_labs) +
@@ -322,6 +326,7 @@ ggplot(wild_yr2000_clean, aes(x = Classe)) +
   theme(panel.grid.major = element_blank(),
         legend.position = "none")
 ```
+
 The poplar individuals were consisted of poplars collected from natural population and from parent population.  
 
 Parent population means that these poplars have been used in a breeding program. Poplars are managed as hybrids. 
@@ -334,7 +339,7 @@ So let's see their origins.
 ```{r origin natural vs parent}
 # Insert a new column for "Region"
 library(tibble)
-wild_copy = wild_yr2000_clean
+wild_copy = wild_yr2000_new
 
 wild_copy = tibble::add_column(wild_copy, "Region" = "NA", .after = "Population")
 
@@ -393,20 +398,159 @@ x_labels = c("Auvergne Rhône Alpes", "Bordeaux",
              "Unknown", "Nouvelle Aquitaine",
              "Occitanie", "Pays de la Loire")
 
-levels(wild_copy$Region)
 str(wild_copy)
+
 wild_copy$Region = factor(wild_copy$Region)
   
-ggplot(wild_copy, aes(x = Region)) + 
-  geom_bar() +  # barchart
+ggplot(wild_copy, aes(x = Region)) +
+  geom_bar(aes(fill = Classe)) +  # barchart
+  ggpubr::fill_palette("jco") +
+  coord_flip() +
   scale_x_discrete(labels = x_labels) +
-  facet_wrap(~ Classe, labeller = labeller(Classe = lab_names)) +  # faceted by parents and natural pop
+  facet_wrap(~ Classe, labeller = labeller(Classe = lab_names), ncol = 1) +  # faceted by parents and natural pop
   labs( x = NULL, y = "Counts", title = "Population origins of black poplar individuals" ) +
-  geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
+  geom_text(stat = "count", aes(label = ..count..), hjust = -0.15, size = 3) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1))
-
+  theme(axis.text = element_text(size = 10),
+        legend.position = "none")
 ```
+
+## Obj 3.2 Comparison of resistance between poplars from natural population and from parent population
+In this section, I would like to show you the resistance between the two populations. 
+Are poplars from natural population resisting better to leaf rust than the poplars from parent population?
+
+### Field resistance and spore size
+```{r comparison resistance, fig.height=4, fig.width=8}
+# Summary statistics with aggregate function
+
+# Length
+aggregate = aggregate(wild_yr2000_new$Classe, by = list(Classe = wild_yr2000_new$Classe), 
+                       FUN = length)
+names(aggregate)[2] = "length"
+
+# Function mean
+mean.fun = function(x){
+  aggregate(x,
+            by = list(Classe = wild_yr2000_new$Classe),
+            FUN = mean)
+}
+
+# Function sd 
+sd.fun = function(x){
+  aggregate(x,
+            by = list(Classe = wild_yr2000_new$Classe),
+            FUN = sd)
+}
+
+# Plotting the comparison
+compare_NM = ggplot(wild_yr2000_new, aes(x = Classe, y = Notemax.2010)) +
+  geom_boxplot(aes(fill= Classe)) +
+  ggpubr::fill_palette("jco") + 
+  stat_summary(fun = "mean", geom = "point", size = 3, color = "red", shape = 15) +
+  geom_jitter(color = "grey", width = .1) +
+  labs(title = "Field resistance",
+       x = "Class",
+       y = "Score") +
+  scale_x_discrete(limit = c("nigrapop", "parent 14x13"),
+                   labels = c("Natural Population", "Parent Population")) +
+  ylim(1, 6) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+# Spore size
+compare_SS = ggplot(wild_yr2000_new, aes(x = Classe, y = taille.93JE3.2010)) +
+  geom_boxplot(aes(fill = Classe)) +
+  ggpubr::fill_palette("jco") +
+  stat_summary(fun = "mean", geom = "point", size = 3, color = "red", shape = 15) +
+  geom_jitter(color = "grey", width = .1) +
+  labs(title = "Spore size",
+       x = "Class",
+       y = "Score") +
+  scale_x_discrete(limit = c("nigrapop", "parent 14x13"),
+                   labels = c("Natural Population", "Parent Population")) +
+  ylim(1, 6) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+# Combining note max and spore size distribution
+compare = ggarrange(compare_NM, compare_SS)
+compare
+```
+
+In terms of field resistance:  
+The poplars from natural populations show lower field resistance than parent population.  
+
+In terms of spore size in the lab:  
+The poplars from natural populations have lower spore size than the parents (on average).
+This shows the ability of the poplars from natural populations to better prevent
+the development of pathogen's spores on their leaves, **in laboratory setting**. 
+It also means that in the lab, P. nigra itself is able to prevent the development 
+of the spore, rather than when it is paired with other Populus species in a breeding
+program.
+
+### Latent period
+```{r comparison LP, fig.height=5, fig.width=7}
+# Latent period
+compare_LP = ggplot(wild_yr2000_new, aes(x = Classe, y = latence.93JE3.2010)) +
+  geom_boxplot(aes(fill = Classe)) +
+  ggpubr::fill_palette("jco") +
+  stat_summary(fun = "mean", geom = "point", size = 3, color = "red", shape = 15) +
+  geom_jitter(color = "grey", width = .1) +
+  labs(title = "Latent period",
+       x = "Class",
+       y = "Days") +
+  scale_x_discrete(limit = c("nigrapop", "parent 14x13"),
+                   labels = c("Natural Population", "Parent Population")) +
+  ylim(7, 12) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+compare_LP
+```
+
+In terms of latent period in the lab:
+The poplars from natural populations start showing symptoms in a much later day
+than the poplars from the parent population. It shows the ability of the poplars from natural populations to 
+prevent the accumulation of pathogen on the leaves.
+
+When the poplars are able to prevent the accumulation of the pathogen, they are more
+likely to prevent the growth of the pathogen on the leaves. Thus when they start showing
+symptoms in a much later day, they tend to have fewer spores with smaller size on
+the leaves than the other poplars that show symptoms in an earlier day.
+
+### Spore number
+```{r comparison NS, fig.height=5, fig.width=7}
+# Number of spores
+compare_NS = ggplot(wild_yr2000_new, aes(x = Classe, y = nbsores.93JE3.2010)) +
+  geom_boxplot(aes(fill = Classe)) +
+  ggpubr::fill_palette("jco") +
+  stat_summary(fun = "mean", geom = "point", size = 3, color = "red", shape = 15) +
+  geom_jitter(color = "grey", width = .1) +
+  labs(title = "Number of spores",
+       x = "Class",
+       y = "Number (counts)") +
+  scale_x_discrete(limit = c("nigrapop", "parent 14x13"),
+                   labels = c("Natural Population", "Parent Population")) +
+  theme_classic() +
+  theme(legend.position = "none")
+
+compare_NS
+```
+
+In terms of number of spores:
+The poplars from natural populations have fewer number of spores than the parent.
+It relates to the inhibiting actions of latent period, and it also leads to the smaller
+spore size.
+
+---
+
+### Bottom line
+So the bottom line is, poplars from natural population show lower resistance in the field than
+the poplars from parent population. However, in the laboratory setting (a controlled environment),
+the poplars from natural population show better resistance than those from parent population, in a way
+that they are able to inhibit the growth of the pathogen.
+
+---
 
 # Obj 3 Correlation between field resistance and lab resistance
 To observe the relationships between the parameters of resistance. Furthermore, 
