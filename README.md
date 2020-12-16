@@ -1,4 +1,6 @@
 # Description
+The result can be seen in this page: https://firzaariany.github.io/field_resistance/
+
 This analysis is to find the relationship between resistance measured in the field
 (field resistance) and measured in the lab (lab resistance).
 
