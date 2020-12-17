@@ -83,12 +83,13 @@ a scoring system (1 to 5, 1 being the smallest, 5 being the largest)
 
 # About the raw dataset
 Poplar species used in this dataset is Populus nigra
-Raw dataset contains:
+Raw dataset contains:  
+
 * Classe = classes of poplar's population source  
-témoin = control  
-parent 14x13 = poplar generated from other breeding program  
-nigrapop = poplar collected from natural populations  
-coll. nationale = poplar collected from (French) national collection)  
+    + témoin = control  
+    + parent 14x13 = poplar generated from other breeding program  
+    + nigrapop = poplar collected from natural populations  
+    + coll. nationale = poplar collected from (French) national collection)  
 
 * Population = the name of the population source  
 
