@@ -552,33 +552,11 @@ that they are able to inhibit the growth of the pathogen.
 
 ---
 
-# Obj 3 Correlation between field resistance and lab resistance
+# Obj 4 Correlation between field resistance and lab resistance
 To observe the relationships between the parameters of resistance. Furthermore, 
 to see if field resistance can be explained by the parameters of lab resistance
 or not.
 ```{r correlation, message=FALSE, warning=FALSE}
-
-
-  
-# remove (?) --> let's see later
-# sort from the population with the highest count
-# vertical text *checked
-# split between parents and natural pop (facet) *checked
-# add data label *checked
-
-
-#(resist_field = ggplot(wild_yr2000_clean, aes(x = Res_vs_sus_note)) +
-  # geom_bar(aes(fill = Res_vs_sus_note)) +
-  # geom_text(stat = "count", aes(label = ..count..), vjust = -0.5) +
-  # labs(title = "Resistant vs susceptible poplars",
-       # x = "Resistant vs Susceptibe",
-       # y = "Counts") +
-  # scale_fill_manual(values = c("#87CEEB", "#FF6A6A"),
-                    # breaks = c("Resistant", "Susceptible"),
-                    # name = "Resistant vs Susceptible",
-                    # labels = c("Resistant", "Susceptible")) +
-  #theme_classic() +
-  #theme(axis.title.x = element_blank()))
 LP_NM = ggpubr::ggscatter(wild_yr2000_new, 
                           x = "latence.93JE3.2010", y = "Notemax.2010",
                           add = "reg.line", conf.int = TRUE,
@@ -605,19 +583,21 @@ corr
 It seems that there are no clear correlation between field and lab resistance. 
 It seems unclear whether lab resistance can explain or predict field resistance.
 
-# Obj 4 Correlation between parameters of lab resistance
+# Obj 5 Correlation between parameters of lab resistance
+In this section, I want to evaluate the correlation between the components of lab resistance.
+I will just evaluate the correlation between two components: latent period (LP) and spore size (SS).
 
 ```{r corr LP x SS, message=FALSE, warning=FALSE}
 # Designing the main correlation plot latence x taille
-(main_cor = ggpubr::ggscatter(wild_yr2000_new,
-                              x = "latence.93JE3.2010", y = "taille.93JE3.2010",
-                              add = "reg.line", conf.int = TRUE,
-                              color = "Classe", palette = "jco",
-                              shape = "Classe", size = 2,
-                              alpha = 0.6, ggtheme = theme_bw(),
-                              xlab = "Latent period (days)", 
-                              ylab = "Spore size (score)") +
-  stat_cor(aes(color = Classe)))  # correlation line
+main_cor = ggplot(data = wild_yr2000_new, aes(x = latence.93JE3.2010,
+                                              y = taille.93JE3.2010,
+                                              color = Classe)) +
+  labs(x = "Latent Period (days)", y = "Spore size (score)") +
+  geom_point(aes(color = Classe)) +
+  ggpubr::color_palette("jco") +
+  stat_cor(method = "pearson", cor.coef.name = "R",
+           digits = 2, label.x.npc = "center") +
+  geom_smooth(method = "lm")
 
 # Because I differentiated correlation for parent and nigrapop, I want to provide
 # the density histogram for poplars from parent and nigrapop
@@ -637,7 +617,6 @@ ydens = axis_canvas(main_cor, axis = "y", coord_flip = TRUE) +
   coord_flip() +  # flipping the coordinate, 90 degrees
   ggpubr::fill_palette("jco")
 
-
 # Adding xdens on the x axis of correlation plot
 main_cor1 = cowplot::insert_xaxis_grob(main_cor, xdens,
                                        grid::unit(0.2, "null"), 
@@ -649,6 +628,7 @@ main_cor2 = cowplot::insert_yaxis_grob(main_cor1, ydens,
                                        position = "right")
 
 cowplot::ggdraw(main_cor2)
+
 
 # Saving the plot
 ggsave("correlation_plot.png",
